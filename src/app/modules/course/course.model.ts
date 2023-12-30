@@ -90,6 +90,11 @@ const courseSchema = new Schema<TCourse>(
       type: detailsSchema,
       required: [true, 'Course details must be required'],
     },
+    createdBy: {
+      type: Schema.ObjectId,
+      required: true,
+      ref: 'User',
+    },
   },
   { timestamps: false, versionKey: false },
 );
