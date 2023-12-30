@@ -17,6 +17,11 @@ const reviewSchema = new Schema<TReview>(
       required: true,
       trim: true,
     },
+    createdBy: {
+      type: Schema.ObjectId,
+      required: true,
+      ref: 'User',
+    },
   },
   {
     versionKey: false,
