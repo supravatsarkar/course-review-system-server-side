@@ -8,6 +8,8 @@ import zodErrorHandler from '../errors/zodErrorHandler';
 import castErrorHandler from '../errors/castErrorHandler';
 import config from '../config';
 import duplicateKeyErrorHandler from '../errors/duplicateKeyErrorHandler';
+import { JsonWebTokenError } from 'jsonwebtoken';
+import jwtErrorHandler from '../errors/jwtErrorHandler';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   console.log('Global Error Handler=>', error);
@@ -44,6 +46,14 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   } else if (error.code && error.code === 11000) {
     // mongoose duplication error handling
     const errorSimplified = duplicateKeyErrorHandler(error);
+    statusCode = errorSimplified.statusCode;
+    message = errorSimplified.message;
+    errorMessage = errorSimplified.errorMessage;
+    errorDetails = errorSimplified.errorDetails;
+    stack = errorSimplified.stack;
+    stack = error.stack;
+  } else if (error instanceof JsonWebTokenError) {
+    const errorSimplified = jwtErrorHandler(error);
     statusCode = errorSimplified.statusCode;
     message = errorSimplified.message;
     errorMessage = errorSimplified.errorMessage;
