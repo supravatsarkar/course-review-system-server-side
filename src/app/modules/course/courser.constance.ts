@@ -8,6 +8,6 @@ export const SORTBY_FIELDS = [
   'durationInWeeks',
 ];
 export const SORT_ORDER = {
-  ASC: 1,
-  DESC: -1,
+  asc: 1,
+  desc: -1,
 };

@@ -1,4 +1,4 @@
-import { AppError } from '../../../errors/AppError';
+import { AppError } from '../../errors/AppError';
 import { CourseModel } from '../course/course.model';
 import { TReview } from './review.interface';
 import httpStatus from 'http-status-codes';

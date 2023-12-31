@@ -1,4 +1,4 @@
-import { AppError } from '../../../errors/AppError';
+import { AppError } from '../../errors/AppError';
 import { CategoryModel } from '../category/category.model';
 import { TCourse } from './course.interface';
 import { CourseModel } from './course.model';
@@ -151,7 +151,7 @@ const getCoursesFromDB = async (query: TQuery | Record<string, unknown>) => {
     limit: 10,
     page: 1,
     sortBy: SORTBY_FIELDS[3],
-    sortOrder: SORT_ORDER.ASC,
+    sortOrder: SORT_ORDER.asc,
     minPrice: 0,
     maxPrice: 0,
     tags: '',
@@ -172,7 +172,7 @@ const getCoursesFromDB = async (query: TQuery | Record<string, unknown>) => {
     queryObj.sortBy = query.sortBy as string;
   }
   if (query.sortOrder) {
-    queryObj.sortOrder = SORT_ORDER[query.sortOrder as 'ASC' | 'DESC'];
+    queryObj.sortOrder = SORT_ORDER[query.sortOrder as 'asc' | 'desc'];
   }
   if (query.minPrice) {
     queryObj.minPrice = Number(query.minPrice);
