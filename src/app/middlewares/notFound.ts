@@ -1,5 +1,5 @@
 import { Request, RequestHandler, Response } from 'express';
-import { AppError } from '../../errors/AppError';
+import { AppError } from '../errors/AppError';
 import httpStatus from 'http-status-codes';
 
 const notFound: RequestHandler = (req: Request, res: Response, next) => {

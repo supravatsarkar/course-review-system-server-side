@@ -3,11 +3,11 @@
 import { ErrorRequestHandler } from 'express';
 import { ZodError } from 'zod';
 import mongoose from 'mongoose';
-import { AppError } from '../../errors/AppError';
-import zodErrorHandler from '../../errors/zodErrorHandler';
-import castErrorHandler from '../../errors/castErrorHandler';
+import { AppError } from '../errors/AppError';
+import zodErrorHandler from '../errors/zodErrorHandler';
+import castErrorHandler from '../errors/castErrorHandler';
 import config from '../config';
-import duplicateKeyErrorHandler from '../../errors/duplicateKeyErrorHandler';
+import duplicateKeyErrorHandler from '../errors/duplicateKeyErrorHandler';
 
 const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
   console.log('Global Error Handler=>', error);
@@ -60,7 +60,7 @@ const globalErrorHandler: ErrorRequestHandler = (error, req, res, next) => {
     message,
     errorMessage,
     errorDetails,
-    stack: config.node_env === 'development' ? stack : '',
+    stack: config.node_env === 'development' ? stack : null,
   });
 };
 
