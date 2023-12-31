@@ -1,4 +1,4 @@
-# Course Review System (Server Side)
+# Course Review System With User Auth (Server Side)
 
 ### Technology used
 
@@ -6,18 +6,23 @@
 - Framework - Express.js
 - Database - mongoDB (Mongoose ORM)
 - Route Validation - Zod
+- Bcrypt - Password hash
+- JWT - session token
 
-**Live Server Host** https://course-review-system-l2-a3.vercel.app
+**Live Server Host** https://courese-review-auth.vercel.app/
 
-## Routes
+## API END POINTS
 
-    POST | baseurl/api/courses
+    POST | baseurl/api/auth/register
+    POST | baseurl/api/auth/login
+    POST | baseurl/api/auth/changes-password
+    POST | baseurl/api/course (Admin Access)
     GET | baseurl/api/courses
-    PUT | baseurl/api/courses/:courseId
+    PUT | baseurl/api/courses/:courseId (Admin Access)
     GET | baseurl/api/courses/:courseId/reviews
-    GET | baseurl/api/courses/best
-    POST | baseurl/api/categories
-    POST | baseurl/api/reviews
+    GET | baseurl/api/course/best
+    POST | baseurl/api/categories (Admin Access)
+    POST | baseurl/api/reviews (User Access)
     GET | baseurl/api/reviews
 
 ### How to Start Project in local
