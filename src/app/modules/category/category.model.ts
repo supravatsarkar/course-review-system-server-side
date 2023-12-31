@@ -16,7 +16,7 @@ const categorySchema = new Schema<TCategory, TCategoryModel>(
     },
   },
   {
-    // timestamps: true,
+    timestamps: true,
     versionKey: false,
   },
 );
