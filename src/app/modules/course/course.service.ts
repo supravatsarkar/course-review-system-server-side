@@ -135,6 +135,9 @@ const updateCoursesIntoDB = async (id: string, payload: Partial<TCourse>) => {
       new: true,
       runValidators: true,
       session,
+    }).populate({
+      path: 'createdBy',
+      select: '-createdAt -updatedAt',
     });
     await session.commitTransaction();
     await session.endSession();
@@ -229,12 +232,30 @@ const getCoursesFromDB = async (query: TQuery | Record<string, unknown>) => {
   queryObj.skip = (queryObj.page - 1) * queryObj.limit;
   console.log({ queryObj });
   console.log({ matches });
-  const result = await CourseModel.aggregate([
-    { $match: matches },
-    { $sort: { [queryObj.sortBy]: queryObj.sortOrder === 1 ? 1 : -1 } },
-    { $skip: queryObj.skip },
-    { $limit: queryObj.limit },
-  ]);
+  // const result = await CourseModel.aggregate([
+  //   { $match: matches },
+  //   { $sort: { [queryObj.sortBy]: queryObj.sortOrder === 1 ? 1 : -1 } },
+  //   { $skip: queryObj.skip },
+  //   { $limit: queryObj.limit },
+  //   // {
+  //   //   $lookup: {
+  //   //     from: 'users',
+  //   //     localField: 'createdBy',
+  //   //     foreignField: '_id',
+  //   //     as: 'createdBy',
+  //   //   },
+  //   // },
+  // ]);
+  const result = await CourseModel.find(matches)
+    .sort({
+      [queryObj.sortBy]: queryObj.sortOrder === 1 ? 1 : -1,
+    })
+    .skip(queryObj.skip)
+    .limit(queryObj.limit)
+    .populate({
+      path: 'createdBy',
+      select: '-createdAt -updatedAt',
+    });
   const totalCount = await courseCount(matches);
   return {
     data: result,

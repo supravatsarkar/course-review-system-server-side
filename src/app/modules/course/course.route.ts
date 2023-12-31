@@ -2,10 +2,13 @@ import { Router } from 'express';
 import { CourseController } from './course.controller';
 import validateRequest from '../../middlewares/validateRequest';
 import { CourseValidation } from './course.validation';
+import { auth } from '../../middlewares/auth';
+import { USER_ROLES } from '../user/user.const';
 const router = Router();
 
 router.post(
   '/',
+  auth(USER_ROLES.admin),
   validateRequest(CourseValidation.createCourseValidationSchema),
   CourseController.createCourse,
 );
@@ -16,6 +19,7 @@ router.get(
 );
 router.put(
   '/:courseId',
+  auth(USER_ROLES.admin),
   validateRequest(CourseValidation.updateCourseValidationSchema),
   CourseController.updateCourse,
 );

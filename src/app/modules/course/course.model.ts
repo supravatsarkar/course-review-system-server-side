@@ -96,7 +96,7 @@ const courseSchema = new Schema<TCourse>(
       ref: 'User',
     },
   },
-  { timestamps: false, versionKey: false },
+  { timestamps: true, versionKey: false },
 );
 
 export const CourseModel = model<TCourse>('Course', courseSchema);

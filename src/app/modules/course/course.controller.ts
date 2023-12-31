@@ -4,7 +4,11 @@ import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status-codes';
 
 const createCourse = catchAsync(async (req, res) => {
-  const course = await CourseService.createCourseIntoDB(req.body);
+  const { _id: createdBy } = req.user;
+  const course = await CourseService.createCourseIntoDB({
+    createdBy,
+    ...req.body,
+  });
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,
