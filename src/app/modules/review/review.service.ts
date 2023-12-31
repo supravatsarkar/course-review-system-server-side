@@ -10,11 +10,17 @@ const createReviewIntoDB = async (payload: TReview) => {
   if (!isCourseExist) {
     throw new AppError('', 'Course does not exit!', httpStatus.BAD_REQUEST);
   }
-  return await ReviewModel.create(payload);
+  return (await ReviewModel.create(payload)).populate({
+    path: 'createdBy',
+    select: '-createdAt -updatedAt',
+  });
 };
 const getReviewsFromDB = async (query: Record<string, unknown>) => {
   // return await ReviewModel.find(query).populate('courseId');
-  return await ReviewModel.find(query);
+  return await ReviewModel.find(query).populate({
+    path: 'createdBy',
+    select: '-createdAt -updatedAt',
+  });
 };
 
 export const ReviewService = {

@@ -25,6 +25,7 @@ const reviewSchema = new Schema<TReview>(
   },
   {
     versionKey: false,
+    timestamps: true,
   },
 );
 
