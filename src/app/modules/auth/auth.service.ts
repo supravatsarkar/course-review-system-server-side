@@ -78,7 +78,7 @@ const changePassword = async (
     throw new AppError(
       '',
       'Current Password doest not match!',
-      httpStatus.CONFLICT,
+      httpStatus.BAD_REQUEST,
     );
   }
 
@@ -89,7 +89,7 @@ const changePassword = async (
     throw new AppError(
       '',
       'Current password and new password should not be same.',
-      httpStatus.CONFLICT,
+      httpStatus.BAD_REQUEST,
     );
   }
 
@@ -102,11 +102,11 @@ const changePassword = async (
     const passwordHistory = fetchedUser?.passwordHistory;
     for (const password of passwordHistory) {
       if (await isPasswordMatch(payload.newPassword, password.hash)) {
-        throw new AppError(
-          '',
-          'New password should not be match with your previous 2 password history',
-          httpStatus.CONFLICT,
-        );
+        return {
+          message: `Password change failed. Ensure the new password is unique and not among the last 2 used (last used on ${password.timeStamp}).`,
+          statusCode: httpStatus.BAD_REQUEST,
+          data: null,
+        };
       }
     }
   }
@@ -164,7 +164,7 @@ const changePassword = async (
     await session.commitTransaction();
     await session.endSession();
 
-    return result;
+    return { data: result };
   } catch (error) {
     console.log('error when update password', error);
     await session.abortTransaction();

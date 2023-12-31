@@ -23,12 +23,15 @@ const loginUser = catchAsync(async (req, res) => {
 });
 const changePassword = catchAsync(async (req, res) => {
   const { ...jwtPayload } = req.user;
-  const result = await AuthService.changePassword(jwtPayload, req.body);
+  const { data, message, statusCode } = await AuthService.changePassword(
+    jwtPayload,
+    req.body,
+  );
   sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'Password changed successfully',
-    data: result,
+    success: data ? true : false,
+    statusCode: statusCode || httpStatus.OK,
+    message: message || 'Password changed successfully',
+    data: data,
   });
 });
 
