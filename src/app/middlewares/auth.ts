@@ -8,20 +8,21 @@ import { TJwtPayload } from '../modules/auth/auth.interface';
 import UserModel from '../modules/user/user.model';
 import { isJwtBeforePasswordChangeTimestamp } from '../utils';
 
-export const unAuthError = new AppError(
-  'Unauthorized Access',
-  'You do not have the necessary permissions to access this resource.',
-  httpStatus.UNAUTHORIZED,
-  null,
-  null,
-);
+export const unAuthError = (statusCode = httpStatus.UNAUTHORIZED) =>
+  new AppError(
+    'Unauthorized Access',
+    'You do not have the necessary permissions to access this resource.',
+    statusCode,
+    null,
+    null,
+  );
 
 export const auth = (...userRoles: TUserRole[]) => {
   return catchAsync(async (req, res, next) => {
     const token = req.headers?.authorization;
     if (!token) {
-      console.log('Auth: Blank token');
-      throw unAuthError;
+      console.log('Auth: Empty token');
+      throw unAuthError();
     }
     console.log({ token });
     const decodePayload = jwt.verify(
@@ -30,13 +31,13 @@ export const auth = (...userRoles: TUserRole[]) => {
     ) as TJwtPayload;
     console.log({ decodePayload });
     if (userRoles && !userRoles.includes(decodePayload.role)) {
-      console.log('Auth: Role not match');
-      throw unAuthError;
+      console.log('Auth: Forbidden');
+      throw unAuthError(httpStatus.FORBIDDEN);
     }
     const isUserExist = await UserModel.isUserExist(decodePayload._id);
     if (!isUserExist) {
       console.log('Auth: User not exit!');
-      throw unAuthError;
+      throw unAuthError();
     }
 
     if (
@@ -47,7 +48,7 @@ export const auth = (...userRoles: TUserRole[]) => {
       )
     ) {
       console.log('Auth: Jwt before password change timestamp!!');
-      throw unAuthError;
+      throw unAuthError();
     }
     req.user = decodePayload;
     next();
