@@ -268,13 +268,16 @@ const getCoursesFromDB = async (query: TQuery | Record<string, unknown>) => {
 };
 const getCoursesWithReviewFromDB = async (id: string) => {
   // checking course existing
-  const course = await CourseModel.findById(id);
+  const course = await CourseModel.findById(id).populate({
+    path: 'createdBy',
+    select: '-createdAt -updatedAt',
+  });
   if (!course) {
     throw new AppError('', 'Course does not exist!', httpStatus.BAD_GATEWAY);
   }
-  const reviews = await ReviewModel.find({ courseId: id }).select({
-    _id: 0,
-    __v: 0,
+  const reviews = await ReviewModel.find({ courseId: id }).populate({
+    path: 'createdBy',
+    select: '-createdAt -updatedAt',
   });
   return { course, reviews };
 };
@@ -310,7 +313,10 @@ const getBestCourseWithAverageReviewCountFromDB = async () => {
     return { course: {}, averageRating: 0, reviewCount: 0 };
   }
   // find course by best review
-  const course = await CourseModel.findById(bestReview?._id);
+  const course = await CourseModel.findById(bestReview?._id).populate({
+    path: 'createdBy',
+    select: '-createdAt -updatedAt',
+  });
   delete bestReview._id;
   return { course, ...bestReview };
 };
