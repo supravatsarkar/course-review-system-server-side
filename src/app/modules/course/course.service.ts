@@ -258,7 +258,7 @@ const getCoursesFromDB = async (query: TQuery | Record<string, unknown>) => {
     });
   const totalCount = await courseCount(matches);
   return {
-    data: result,
+    data: { courses: result },
     meta: {
       page: queryObj.page,
       limit: queryObj.limit,

@@ -9,21 +9,24 @@
 - Bcrypt - Password hash
 - JWT - session token
 
-**Live Server Host** https://courese-review-auth.vercel.app/
+**Live Server Host** https://courese-review-auth.vercel.app
 
-## API END POINTS
+**API Documentation**:- https://documenter.getpostman.com/view/19116876/2s9YsDkvKu
+
+## API ENDPOINTS
 
     POST | baseurl/api/auth/register
     POST | baseurl/api/auth/login
-    POST | baseurl/api/auth/changes-password
-    POST | baseurl/api/course (Admin Access)
+    POST | baseurl/api/auth/changes-password (Protected:Admin/User Access)
+    POST | baseurl/api/courses (Protected:Admin Access)
     GET | baseurl/api/courses
-    PUT | baseurl/api/courses/:courseId (Admin Access)
+    PUT | baseurl/api/courses/:courseId (Protected:Admin Access)
     GET | baseurl/api/courses/:courseId/reviews
     GET | baseurl/api/course/best
-    POST | baseurl/api/categories (Admin Access)
-    POST | baseurl/api/reviews (User Access)
+    POST | baseurl/api/categories (Protected:Admin Access)
+    POST | baseurl/api/reviews (Protected:User Access)
     GET | baseurl/api/reviews
+    More details about api endpoint :- https://documenter.getpostman.com/view/19116876/2s9YsDkvKu
 
 ### How to Start Project in local
 

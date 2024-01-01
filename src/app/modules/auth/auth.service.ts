@@ -14,7 +14,7 @@ const registerUserIntoDB = async (payload: TUser) => {
   delete result?.password;
   delete result?.passwordChangedAt;
   delete result?.passwordHistory;
-  return { result };
+  return result;
 };
 const loginUser = async (loginPayload: TLoginUserPayload) => {
   // user exiting check
